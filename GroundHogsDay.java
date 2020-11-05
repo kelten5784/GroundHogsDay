@@ -1,0 +1,96 @@
+	// Import the GUI libraries
+	import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+
+import java.awt.*;
+	import java.awt.event.*;
+public class GroundHogsDay {
+
+	/**
+	 * MAIN METHOD
+	 * This main method starts the GUI and runs the createMainWindow() method.
+     * This method should not be changed.
+	 */
+	public static void main (String [] args) {
+		javax.swing.SwingUtilities.invokeLater (new Runnable () {
+			public void run () {
+				createMainWindow ();
+			}
+		});
+	}
+
+
+	/**
+	 * STATIC VARIABLES AND CONSTANTS
+	 * Declare the objects and variables that you want to access across
+     * multiple methods.
+	 */
+
+
+
+	 // CREATE MAIN WINDOW
+     // This method is called by the main method to set up the main GUI window.
+	
+	 static JLabel mapImage = new JLabel(new ImageIcon("grassbackground.png"));
+		
+	private static void createMainWindow () {
+		// Create and set up the window.
+		JFrame frame = new JFrame ("Ground Hogs Day");
+		frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
+		frame.setResizable (false);
+		
+		// The panel that will hold the components in the frame.
+		JLayeredPane contentPane = new JLayeredPane ();
+		contentPane.setPreferredSize(new Dimension (700, 394));
+		
+		//add the map.
+		mapImage.setSize(700, 394);
+		contentPane.add(mapImage);
+	
+
+		
+		// right pane 
+		JPanel sideBar = new JPanel();
+		sideBar.setLayout(new BoxLayout(sideBar, BoxLayout.PAGE_AXIS));
+		sideBar.setPreferredSize(new Dimension(175, 300));
+		sideBar.setBorder(new EmptyBorder(20, 20, 20, 20));
+		contentPane.add(sideBar, BorderLayout.EAST);
+		
+		//componets to right panel
+		JLabel Points = new JLabel("Points");
+		sideBar.add(Points);
+		//sideBar.add(Points100);
+		//sideBar.setLayer(Points, );
+		sideBar.setVisible(true);
+		contentPane.moveToFront(sideBar);
+
+
+	
+
+        //Add components to the content pane panel
+
+
+		// Add the panel to the frame
+		frame.setContentPane(contentPane);
+
+		//size the window.
+		frame.pack();
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
+	}
+
+
+    /**
+     * HELPER METHODS
+     * Methods that you create to manage repetitive tasks.
+     */
+
+
+
+    /**
+     * EVENT LISTENERS
+     * Subclasses that handle events (button clicks, mouse clicks and moves,
+     * key presses, timer expirations)
+     */
+
+}
