@@ -2,6 +2,8 @@
 	import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import java.util.Scanner;
+import javax.swing.Timer;
 import java.awt.*;
 	import java.awt.event.*;
 public class GroundHogsDay {
@@ -52,17 +54,34 @@ public class GroundHogsDay {
 		// right pane 
 		JPanel sideBar = new JPanel();
 		sideBar.setLayout(new BoxLayout(sideBar, BoxLayout.PAGE_AXIS));
-		sideBar.setPreferredSize(new Dimension(175, 300));
+		sideBar.setSize(new Dimension(175, 80));
 		sideBar.setBorder(new EmptyBorder(20, 20, 20, 20));
-		contentPane.add(sideBar, BorderLayout.EAST);
+		contentPane.add(sideBar);
+		contentPane.setLayer(sideBar, 100);
+		sideBar.setLocation(525, 0);
 		
-		//componets to right panel
-		JLabel Points = new JLabel("Points");
+		//Components to right panel
+		int scorePoints = 0;
+		JLabel Points = new JLabel("Points " + scorePoints );
+		Points.setFont(new Font("Comic Sans MS", Font.ITALIC | Font.BOLD, 16));
 		sideBar.add(Points);
-		//sideBar.add(Points100);
-		//sideBar.setLayer(Points, );
-		sideBar.setVisible(true);
-		contentPane.moveToFront(sideBar);
+		
+		//timer
+		  int delay = 100; //milliseconds
+		  ActionListener taskPerformer = new ActionListener() {
+			  //a loser frame if the time limit runs out
+		      public void actionPerformed(ActionEvent evt) {
+		    	  JFrame loser = new JFrame ("Loser");
+		  		frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
+		  		frame.setResizable (false);
+		  		
+		  		//buttons and labels 
+		  		JLabel gameOver = new JLabel("Game Over");
+		  		gameOver.setFont(new Font("Comic Sans MS", Font.ITALIC | Font.BOLD, 25));
+		          
+		      }
+		  };
+		  new Timer(delay, taskPerformer).start();
 
 
 	
