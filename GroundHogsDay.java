@@ -1,8 +1,10 @@
 // Import the GUI libraries
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
+
+
 import java.util.Scanner;
-import javax.swing.Timer;
 import java.awt.*;
 import java.util.Random;
 
@@ -30,11 +32,18 @@ public class GroundHogsDay {
 	 */
 	static JFrame frame;
 	static final int TIMER_LIMIT = 30;
-	static int seconds = 0;
+	static int seconds;
 	static Timer timer;
 	static JLabel mapImage;
 	static JLabel goFur;
 	static Random randomGenerator = new Random();
+	static JLabel time;
+	static JLabel Points;
+	static int scorePoints;
+	static JPanel gameOverPane = new JPanel();
+	static JFrame loser = new JFrame ();
+	static JLabel Time;
+	static final int MAX_SECONDS = 10;
 	// CREATE MAIN WINDOW
 	// This method is called by the main method to set up the main GUI window.
 
@@ -54,17 +63,17 @@ public class GroundHogsDay {
 
 		//add the map.
 		JLabel goFur = new JLabel(new ImageIcon("groundhog.png"));
-		JLabel mapImage = new JLabel(new ImageIcon("grassbackground.png"));
-		
-		mapImage.setSize(700, 394);
-		contentPane.add(mapImage);
-		goFur.setSize(new Dimension (500, 600));
-		
+		goFur.setSize(new Dimension (409, 900));
+		goFur.addMouseListener(new GoFurClickListener());
 		contentPane.add(goFur);
 		contentPane.setLayer(goFur, 10);
-
-		
 		goFur.setVisible(true);
+
+		JLabel mapImage = new JLabel(new ImageIcon("grassbackground.png"));
+		mapImage.setSize(700, 394);
+		contentPane.add(mapImage);
+
+
 
 
 		// right pane 
@@ -77,18 +86,15 @@ public class GroundHogsDay {
 		sideBar.setLocation(525, 0);
 
 		//Components to right panel
-		int scorePoints = 0;
-		JLabel Points = new JLabel("Points " + scorePoints );
+		scorePoints = 0;
+		JLabel Points = new JLabel("Points: " + scorePoints );
 		Points.setFont(new Font("Comic Sans MS", Font.ITALIC | Font.BOLD, 16));
 		sideBar.add(Points);
 
-
-
-
-		;
-
-
-
+		seconds = MAX_SECONDS;
+		Time = new JLabel("Time: " + seconds);
+		Time.setFont(new Font("Comic Sans MS", Font.ITALIC | Font.BOLD, 16));
+		sideBar.add(Time);
 
 		//Add components to the content pane panel
 
@@ -102,54 +108,114 @@ public class GroundHogsDay {
 		frame.setVisible(true);
 	}
 
-
-
 	/**
 	 * HELPER METHODS
 	 * Methods that you create to manage repetitive tasks.
 	 */
-
-
 
 	/**
 	 * EVENT LISTENERS
 	 * Subclasses that handle events (button clicks, mouse clicks and moves,
 	 * key presses, timer expirations)
 	 */
+
+	private static class QuitButtonListener implements ActionListener {
+		public void actionPerformed (ActionEvent event) {
+			int answer = JOptionPane.showConfirmDialog(null, "Are you sure your want to quit?", 
+					"Quit?", JOptionPane.YES_NO_OPTION);
+			if (answer == JOptionPane.YES_OPTION) {
+				System.exit(0);
+			}
+		}
+	}
+	//sets the listener when you click on the gofur
+	private static class GoFurClickListener implements MouseListener {
+		public void mousePressed(MouseEvent e) {
+		}
+
+		public void mouseReleased(MouseEvent e) {
+		}
+
+		public void mouseEntered(MouseEvent e) {
+		}
+
+		public void mouseExited(MouseEvent e) {
+		}
+
+		public void mouseClicked(MouseEvent e) {
+			scorePoints = 1;
+			int goFurX = randomGenerator.nextInt(300);
+			int goFurY = randomGenerator.nextInt(394);
+			goFur.setLocation(goFurX, goFurY);
+			goFur.setVisible(true);
+			if (scorePoints == 10) {
+				seconds--;
+			}
+		}
+	}
+
+	private static class NewGameButtonListener implements ActionListener {
+		public void actionPerformed (ActionEvent event) {
+			int answer = JOptionPane.showConfirmDialog(null, 
+					"Are you sure your want to start a new game?", "New Game?", 
+					JOptionPane.YES_NO_OPTION);
+			if (answer == JOptionPane.YES_OPTION) {
+				frame.setVisible(true);
+				loser.setVisible(false);
+				gameOverPane.setVisible(false);
+				scorePoints = 0;
+				seconds = MAX_SECONDS ;
+				timer.start();
+
+			}
+		}
+	}
+
 	private static class TimeOutListener implements ActionListener {
 
 		JFrame loser = new JFrame ();
 		//a loser frame if the time limit runs out
 		public void actionPerformed(ActionEvent evt) {
-			if (seconds == 10) {
+			if (seconds == 0) {
 				loser = new JFrame ();
 				loser.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
 				loser.setResizable (false);
 				loser.setLocationRelativeTo(null);
 				loser.setVisible(true);
 				frame.setVisible(false);
-				
-				JPanel gameOverPane = new JPanel();
-				gameOverPane.setLayout(new BorderLayout(5, 10));
-				gameOverPane.setPreferredSize(new Dimension (700, 394));
 
-		
+				JPanel gameOverPane = new JPanel();
+				gameOverPane.setLayout(new BoxLayout(gameOverPane, BoxLayout.PAGE_AXIS));
+				gameOverPane.setPreferredSize(new Dimension (700, 394));
+				gameOverPane.setBackground(Color.YELLOW);
+
+
 				//buttons and labels 
 				JButton GameOverQuitButton = new JButton("Quit");
 				JLabel gameOver = new JLabel("Game Over");
-				
+
 				gameOver.setFont(new Font("Comic Sans MS", Font.ITALIC | Font.BOLD, 25));
-				gameOverPane.add(GameOverQuitButton , BorderLayout.CENTER);
 				GameOverQuitButton.setVisible(true);
-				
-				
+				GameOverQuitButton.addActionListener(new QuitButtonListener());
+				gameOverPane.add(GameOverQuitButton );
+				gameOver.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+				//new game button
+				JButton newGameButton = new JButton("New Game");
+				newGameButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+				newGameButton.addActionListener(new NewGameButtonListener());
+				gameOverPane.add(newGameButton);
+				gameOverPane.add(Box.createRigidArea(new Dimension(400, 10)));
+
+
 				gameOverPane.add(gameOver);
 				GameOverQuitButton.setVisible(true);
-				
+
 				loser.setSize(new Dimension (400 , 200));
-				loser.add(GameOverQuitButton);
+				gameOverPane.add(GameOverQuitButton);
+				gameOverPane.setAlignmentX(Component.CENTER_ALIGNMENT);
 				timer.stop();
-				
+
 				loser.setContentPane(gameOverPane);
 
 				//size the window.
@@ -158,18 +224,10 @@ public class GroundHogsDay {
 				loser.setVisible(true);
 			}
 			else { 
-				seconds++;
+				seconds--;
+				Time.setText("Time: " + seconds);
+
 			}
-		}
-		private static void changeGofurLocation () {
-			int goFurX = randomGenerator.nextInt(700);
-			int goFurY = randomGenerator.nextInt(394);
-			goFur.setLocation(goFurX, goFurY);
-			goFur.setVisible(true);
 		}
 	}
 }
-
-
-
-
