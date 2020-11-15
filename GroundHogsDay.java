@@ -44,6 +44,7 @@ public class GroundHogsDay {
 	static JFrame loser = new JFrame ();
 	static JLabel Time;
 	static final int MAX_SECONDS = 10;
+
 	// CREATE MAIN WINDOW
 	// This method is called by the main method to set up the main GUI window.
 
@@ -87,7 +88,7 @@ public class GroundHogsDay {
 
 		//Components to right panel
 		scorePoints = 0;
-		JLabel Points = new JLabel("Points: " + scorePoints );
+		Points = new JLabel("Points: " + scorePoints );
 		Points.setFont(new Font("Comic Sans MS", Font.ITALIC | Font.BOLD, 16));
 		sideBar.add(Points);
 
@@ -143,16 +144,23 @@ public class GroundHogsDay {
 		}
 
 		public void mouseClicked(MouseEvent e) {
-			scorePoints = 1;
 			int goFurX = randomGenerator.nextInt(300);
 			int goFurY = randomGenerator.nextInt(394);
 			goFur.setLocation(goFurX, goFurY);
 			goFur.setVisible(true);
+
 			if (scorePoints == 10) {
-				seconds--;
+	
+			}
+			else {
+				scorePoints++;
+				Points.setText("Points: " + scorePoints );;
+				
+
 			}
 		}
 	}
+
 
 	private static class NewGameButtonListener implements ActionListener {
 		public void actionPerformed (ActionEvent event) {
@@ -166,8 +174,12 @@ public class GroundHogsDay {
 				scorePoints = 0;
 				seconds = MAX_SECONDS ;
 				timer.start();
-
 			}
+				else {
+					System.exit(0);
+				}
+
+			
 		}
 	}
 
@@ -195,8 +207,10 @@ public class GroundHogsDay {
 				JLabel gameOver = new JLabel("Game Over");
 
 				gameOver.setFont(new Font("Comic Sans MS", Font.ITALIC | Font.BOLD, 25));
+				
 				GameOverQuitButton.setVisible(true);
 				GameOverQuitButton.addActionListener(new QuitButtonListener());
+				
 				gameOverPane.add(GameOverQuitButton );
 				gameOver.setAlignmentX(Component.CENTER_ALIGNMENT);
 
