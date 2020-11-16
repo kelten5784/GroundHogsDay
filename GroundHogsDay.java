@@ -213,7 +213,7 @@ public class GroundHogsDay {
 				loser.setVisible(false);
 				gameOverPane.setVisible(false);
 				scorePoints = 0;
-				seconds = MAX_SECONDS ;
+				seconds = 10 ;
 				timer.start();
 			}
 			else {
