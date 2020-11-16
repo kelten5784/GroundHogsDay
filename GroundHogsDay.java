@@ -143,7 +143,7 @@ public class GroundHogsDay {
 	//sets the listener when you click on the woodChuck
 	private static class woodChuckClickListener implements MouseListener {
 		public void mousePressed(MouseEvent e) {
-			
+
 		}
 
 		public void mouseReleased(MouseEvent e) {
@@ -166,16 +166,16 @@ public class GroundHogsDay {
 			}
 			else if (scorePoints == 19 ) {
 				seconds = 9;
-			
+
 			}
 			else if (scorePoints == 29 ) {
 				seconds = 8;
-			
+
 			}
 			else if (scorePoints == 39) {
 				seconds = 7;
 			}
-			
+
 			else if (scorePoints == 49) {
 				seconds = 6;
 			}
@@ -195,10 +195,10 @@ public class GroundHogsDay {
 				seconds = 1;
 				System.exit(0);
 			}
-			
 
 
-		
+
+
 			scorePoints++;
 			Points.setText("Points: " + scorePoints );
 		}
