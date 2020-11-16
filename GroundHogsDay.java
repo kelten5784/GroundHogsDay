@@ -35,7 +35,7 @@ public class GroundHogsDay {
 	static int seconds;
 	static Timer timer;
 	static JLabel mapImage;
-	static JLabel goFur;
+	static JLabel woodChuck;
 	static Random randomGenerator = new Random();
 	static JLabel time;
 	static JLabel Points;
@@ -44,7 +44,7 @@ public class GroundHogsDay {
 	static JFrame loser = new JFrame ();
 	static JLabel Time;
 	static final int MAX_SECONDS = 10;
-
+	static JLabel nextLevel;
 	// CREATE MAIN WINDOW
 	// This method is called by the main method to set up the main GUI window.
 
@@ -53,6 +53,8 @@ public class GroundHogsDay {
 		frame = new JFrame ("Ground Hogs Day");
 		frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
 		frame.setResizable (false);
+		frame.pack();
+
 
 		// The panel that will hold the components in the frame.
 		JLayeredPane contentPane = new JLayeredPane ();
@@ -62,14 +64,16 @@ public class GroundHogsDay {
 		timer = new Timer(1000, new TimeOutListener());
 		timer.start();
 
-		//add the map.
-		JLabel goFur = new JLabel(new ImageIcon("groundhog.png"));
-		goFur.setSize(new Dimension (409, 900));
-		goFur.addMouseListener(new GoFurClickListener());
-		contentPane.add(goFur);
-		contentPane.setLayer(goFur, 10);
-		goFur.setVisible(true);
+		//woodChuck 
+		woodChuck = new JLabel(new ImageIcon("3DpKaKY-unscreen.gif"));
+		woodChuck.setSize(new Dimension (326, 326));
+		woodChuck.setLocation(400 , 100);
+		woodChuck.addMouseListener(new woodChuckClickListener());
+		contentPane.add(woodChuck);
+		contentPane.setLayer(woodChuck, 10);
+		woodChuck.setVisible(true);
 
+		//add the map.
 		JLabel mapImage = new JLabel(new ImageIcon("grassbackground.png"));
 		mapImage.setSize(700, 394);
 		contentPane.add(mapImage);
@@ -97,9 +101,12 @@ public class GroundHogsDay {
 		Time.setFont(new Font("Comic Sans MS", Font.ITALIC | Font.BOLD, 16));
 		sideBar.add(Time);
 
-		//Add components to the content pane panel
-
-
+		//score prompt jlabel
+		nextLevel = new JLabel("You have scored" + scorePoints + "Points!" );
+		nextLevel.setFont(new Font("Comic Sans MS", Font.ITALIC | Font.BOLD, 16));
+		nextLevel.setLocation(800, 800);
+		contentPane.add(nextLevel);
+		nextLevel.setVisible(true);
 		// Add the panel to the frame
 		frame.setContentPane(contentPane);
 
@@ -129,8 +136,12 @@ public class GroundHogsDay {
 			}
 		}
 	}
-	//sets the listener when you click on the gofur
-	private static class GoFurClickListener implements MouseListener {
+
+
+
+
+	//sets the listener when you click on the woodChuck
+	private static class woodChuckClickListener implements MouseListener {
 		public void mousePressed(MouseEvent e) {
 		}
 
@@ -144,20 +155,50 @@ public class GroundHogsDay {
 		}
 
 		public void mouseClicked(MouseEvent e) {
-			int goFurX = randomGenerator.nextInt(300);
-			int goFurY = randomGenerator.nextInt(394);
-			goFur.setLocation(goFurX, goFurY);
-			goFur.setVisible(true);
+			int woodChuckX = randomGenerator.nextInt(500);
+			int woodChuckY = randomGenerator.nextInt(294);
+			woodChuck.setLocation(woodChuckX, woodChuckY);
 
-			if (scorePoints == 10) {
-	
-			}
-			else {
-				scorePoints++;
-				Points.setText("Points: " + scorePoints );;
-				
 
+			if (scorePoints == 9) 	{
+				seconds = 10;
+		
 			}
+			else if (scorePoints == 19 ) {
+				seconds = 9;
+			
+			}
+			else if (scorePoints == 29 ) {
+				seconds = 8;
+			
+			}
+			else if (scorePoints == 39) {
+				seconds = 7;
+			}
+			
+			else if (scorePoints == 49) {
+				seconds = 6;
+			}
+			else if (scorePoints == 59) {
+				seconds = 5;
+			}
+			else if (scorePoints == 69) {
+				seconds = 4;
+			}
+			else if (scorePoints == 79) {
+				seconds = 3;
+			}
+			else if (scorePoints == 89) {
+				seconds = 2;
+			}
+			else if (scorePoints == 99) {
+				seconds = 1;
+			}
+
+
+		
+			scorePoints++;
+			Points.setText("Points: " + scorePoints );
 		}
 	}
 
@@ -175,11 +216,11 @@ public class GroundHogsDay {
 				seconds = MAX_SECONDS ;
 				timer.start();
 			}
-				else {
-					System.exit(0);
-				}
+			else {
+				System.exit(0);
+			}
 
-			
+
 		}
 	}
 
@@ -199,20 +240,30 @@ public class GroundHogsDay {
 				JPanel gameOverPane = new JPanel();
 				gameOverPane.setLayout(new BoxLayout(gameOverPane, BoxLayout.PAGE_AXIS));
 				gameOverPane.setPreferredSize(new Dimension (700, 394));
-				gameOverPane.setBackground(Color.YELLOW);
+				gameOverPane.setBackground(Color.MAGENTA);
 
 
 				//buttons and labels 
 				JButton GameOverQuitButton = new JButton("Quit");
 				JLabel gameOver = new JLabel("Game Over");
+				JLabel Score = new JLabel("Wow You got " + scorePoints + " Points You Suck");
+				Score.setFont(new Font("Comic Sans MS", Font.ITALIC | Font.BOLD, 25));
+				Score.setAlignmentX(Component.CENTER_ALIGNMENT);
+				gameOverPane.add(Score);
+
 
 				gameOver.setFont(new Font("Comic Sans MS", Font.ITALIC | Font.BOLD, 25));
-				
+
 				GameOverQuitButton.setVisible(true);
 				GameOverQuitButton.addActionListener(new QuitButtonListener());
-				
+
 				gameOverPane.add(GameOverQuitButton );
 				gameOver.setAlignmentX(Component.CENTER_ALIGNMENT);
+				GameOverQuitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+
+
+
 
 				//new game button
 				JButton newGameButton = new JButton("New Game");
